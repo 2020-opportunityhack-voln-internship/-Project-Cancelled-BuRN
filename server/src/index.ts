@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import dispatcher from './dispatcher';
 
 const password = 'test';
 const secret = 'test';
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   res.send("Hello, world!").status(200);
+  dispatcher.sms.sendMessage("Hello!!!", { phoneNumber: "+12092757002" })
 });
 
 app.listen(3000, () => {
