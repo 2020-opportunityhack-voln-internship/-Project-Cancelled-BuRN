@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node dist/index.js",
-    "build":"tsc"
+    "start": "concurrently \"npm run build:watch\" \"npm run debug\"",
+    "production":"node dist/index.js",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "debug": "nodemon --inspect dist/index.js",
+    "asksaf": "asdf"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +18,8 @@
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
+    "concurrently": "^4.0.1",
+    "nodemon": "^1.18.4",
     "typescript": "^3.1.3"
   }
 }
