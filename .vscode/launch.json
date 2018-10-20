@@ -7,17 +7,12 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "Attach",
-      "port": 9229
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/server/src/index.ts",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "name": "Docker: Server",
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/",
+      "protocol": "inspector"
     }
   ]
 }
