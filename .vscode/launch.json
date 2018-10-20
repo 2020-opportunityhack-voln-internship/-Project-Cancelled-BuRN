@@ -10,9 +10,12 @@
       "name": "Docker: Server",
       "port": 9229,
       "address": "localhost",
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "/",
-      "protocol": "inspector"
+      "localRoot": "${workspaceFolder}/server",
+      "remoteRoot": "/server",
+      "protocol": "inspector",
+      "restart": true,
+      "sourceMaps": true
     }
+
   ]
 }
