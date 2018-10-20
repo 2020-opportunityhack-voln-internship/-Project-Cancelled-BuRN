@@ -8,7 +8,7 @@
     "production":"node dist/index.js",
     "build": "tsc",
     "build:watch": "tsc -w",
-    "debug": "nodemon --inspect dist/index.js",
+    "debug": "nodemon --inspect=0.0.0.0:9229 dist/index.js",
     "asksaf": "asdf"
   },
   "author": "",
