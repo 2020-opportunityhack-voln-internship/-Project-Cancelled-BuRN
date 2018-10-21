@@ -10,20 +10,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
     },
     {
       path: '/campaign',
-      name: 'campaign',
+      name: 'Campaign',
       component: () => import('./views/campaign/CampaignContainer.vue'),
       children: [
         {
           path: '',
+          name: 'CampaignList',
           component: () => import('./views/campaign/CampaignMain.vue'),
         },
         {
           path: 'new',
+          name: 'NewCampaign',
           component: () => import('./views/campaign/NewCampaign.vue'),
         },
       ],
