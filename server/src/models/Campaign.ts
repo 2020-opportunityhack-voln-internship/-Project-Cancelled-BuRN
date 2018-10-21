@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model, model} from "mongoose";
+import mongoose, { Document, Schema, Model, model } from "mongoose";
 import uuid from 'uuid';
 const ResponseSchema: Schema = new Schema({
   user: {
@@ -15,7 +15,7 @@ export const MessageSchema: Schema = new Schema({
   uuid: {
     type: String,
     required: true,
-    default: uuid()
+    default: uuid
   },
   text: {
     type: String,
@@ -23,7 +23,8 @@ export const MessageSchema: Schema = new Schema({
   },
   date: {
     type: Date,
-    required: true
+    required: true,
+    default: Date.now
   },
   responses: [{
     type: ResponseSchema
@@ -44,7 +45,7 @@ const UserSchema: Schema = new Schema({
   email: {
     type: String,
     validate: {
-      validator: function(email: string) {
+      validator: function (email: string) {
         const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         return emailRegex.test(email);
       },
@@ -54,7 +55,7 @@ const UserSchema: Schema = new Schema({
   phone: {
     type: String,
     validate: {
-      validator: function(phone: string) {
+      validator: function (phone: string) {
         const phoneRegex = /\+?[1-9]\d{1,14}$/;
         return phoneRegex.test(phone);
       },
@@ -77,7 +78,7 @@ const CampaignSchema: Schema = new Schema({
   date: {
     type: Date,
     required: true,
-    default: Date.now()
+    default: Date.now
   },
   complete: {
     type: Boolean,
@@ -86,12 +87,16 @@ const CampaignSchema: Schema = new Schema({
   }
 });
 
-CampaignSchema.query.addMessageResponse = function(campaign_id: string, message_uuid: string, user_identifier: string, text: string){
-  return this.findOneAndUpdate({_id: campaign_id}, { $push: { messages: {
-    user: user_identifier,
-    text,
-    date: Date.now()
-  } }});
+CampaignSchema.query.addMessageResponse = function (campaign_id: string, message_uuid: string, user_identifier: string, text: string) {
+  return this.findOneAndUpdate({ _id: campaign_id }, {
+    $push: {
+      'messages.responses': {
+        user: user_identifier,
+        text,
+        date: Date.now()
+      }
+    }
+  });
 }
 
 export interface IUser {
@@ -99,8 +104,8 @@ export interface IUser {
   email: string,
   phone: string
 }
+export interface IMessage {
 
-export interface IMessage{
   uuid: string,
   text: string,
   date: Date,
@@ -111,7 +116,8 @@ export interface IMessage{
     date: Date
   }]
 }
-export interface ICampaign extends Document{
+
+export interface ICampaign extends Document {
   name: string,
   users: [IUser],
   messages: [IMessage],
@@ -122,3 +128,6 @@ export interface ICampaign extends Document{
 }
 
 export const Campaign: Model<ICampaign> = model<ICampaign>('Campaign', CampaignSchema);
+export const User: Model<ICampaign> = model<ICampaign>('User', UserSchema);
+export const Message: Model<ICampaign> = model<ICampaign>('Message', MessageSchema);
+export const Response: Model<ICampaign> = model<ICampaign>('Response', ResponseSchema);
