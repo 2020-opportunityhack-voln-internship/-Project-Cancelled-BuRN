@@ -19,6 +19,7 @@ export default {
     return {API_URL}
   },
   mounted() {
+    console.log(API_URL);
     this.$store.dispatch('fetchCampaigns');
   },
   computed: {
