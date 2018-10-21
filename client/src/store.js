@@ -72,12 +72,14 @@ export default new Vuex.Store({
       return axios.post(urljoin(API_URL, 'campaign', campaign, 'start'), {}, authOptions);
     },
     async newMessage(context, { message, campaign }) {
+      debugger;
       const payload = {
         text: message.text,
         date: message.date.getTime(),
         campaignId: campaign,
       };
       const newMessage = (await axios.post(urljoin(API_URL, '/message'), payload, authOptions)).data;
+      debugger;
       context.commit('RECEIVE_NEW_MESSAGE', { message: newMessage, campaign });
       return newMessage;
     },

@@ -3,11 +3,13 @@
     <h1>{{campaign.name}}</h1>
     Messages
     <div class="">
-      <message v-for="message in campaign.messages" :key="message.id" :message="message" :campaignid="campaign.id" />
-      <message key="0" :message="null" :campaignid="campaign.id" />
+      <message v-for="message in campaign.messages" :key="message.id" :message="message" :editable="campaign.status === 'created'" :campaignid="campaign.id" />
+      <message v-if="campaign.status === 'created'" key="0" :message="null" :campaignid="campaign.id" />
     </div>
-    <div @click="next" class="button btn-success py1 px2 my1">
-      Next
+    <div>
+      <div @click="next" class="button btn-success py1 px2 my1">
+        Next
+      </div>
     </div>
   </div>
 </template>

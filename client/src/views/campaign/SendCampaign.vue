@@ -1,5 +1,6 @@
 <template>
-  <div id="buttonContainer" class="flex flex-auto justify-center items-center">
+  <div id="buttonContainer" class="flex flex-auto flex-column justify-center items-center">
+    <h1>{{campaign.name}}</h1>
     <div><div class="button" @click="sendCampaign">Send</div></div>
   </div>
 </template>
@@ -13,7 +14,12 @@ export default {
       await this.$store.dispatch('sendCampaign', { campaign: this.id });
       this.$router.push('/campaign');
     }
-  }
+  },
+  computed: {
+    campaign() {
+      return this.$store.getters.campaignById(this.id);
+    }
+  },
 };
 </script>
 
