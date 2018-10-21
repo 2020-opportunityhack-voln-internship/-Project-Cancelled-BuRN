@@ -3,10 +3,10 @@ export class MessageScheduler {
     [key:string]: NodeJS.Timeout
   }
 
-  static scheduleMessage(campaign_id: string, message_id: string, date: number): void{
+  static scheduleMessage(campaign_id: string, message_id: string, date: Date): void{
     const timeout = setTimeout((campaign_id, message_id) => {
 
-    }, date - Date.now());
+    }, date.valueOf() - Date.now());
     this.timeouts[message_id] = timeout;
   }
 
