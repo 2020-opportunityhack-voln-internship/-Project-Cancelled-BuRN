@@ -49,8 +49,7 @@ export default {
     },
     setTimePlus() {
       const today = this.temp.date;
-      const newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes() + 10, 0, 0);
-      debugger;
+      const newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes() + 1, 0, 0);
       this.temp.date = newDate;
     },
     save(e) {
