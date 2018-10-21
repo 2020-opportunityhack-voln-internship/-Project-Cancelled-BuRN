@@ -3,14 +3,14 @@ const authToken = 'eb432eec044be3626e7914ac8ff2972b';
 const client = require('twilio')(accountSid, authToken);
 const twilioFromNumber = '+14805315337';
 
-function sendMessage(msg, reciever) {
+function sendMessage(msg: string, reciever: { phoneNumber: string}) {
     client.messages
         .create({
             body: msg,
             from: twilioFromNumber,
             to: reciever.phoneNumber
         })
-        .then(message => console.log(message.sid))
+        .then((message: any) => console.log(message.sid))
         .done();
 }
 
