@@ -73,3 +73,5 @@ typings/
 .serverless
 
 server/dist
+
+\.DS_Store
