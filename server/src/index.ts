@@ -16,6 +16,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use('/', express.static('public'));
+
 app.post('/login', (req: Request, res: Response) => {
   console.log(req);
   if (req.body.password == password) {

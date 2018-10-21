@@ -14,7 +14,7 @@ COPY ./server/package-lock.json .
 RUN npm i
 
 COPY server . 
-COPY --from=client /client/dist /server/static
+COPY --from=client /client/dist /server/public
 
 EXPOSE 3000
 
