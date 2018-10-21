@@ -8,9 +8,9 @@
     <a @click="edit" v-if="!editing && message===null">+ new</a>
     <form @submit="save" class="flex flex-auto" v-if="editing">
       <datepicker v-model="temp.date" input-class="p1 mr1" placeholder="date to send"></datepicker>
-      <input type="button" class="p1 mr1 button" value="1 minute from now" @click="setTimePlus"/>
+      <input type="button" v-if="!minuteplus" class="p1 mr1 button" value="1 minute from now" @click="setTimePlus"/>
       <input class="flex-auto mr1 p1" type="text" v-model="temp.text" placeholder="message text" />
-      <input type="submit" class="p1 button" />
+      <input type="submit" class="p1 button" value="save" />
     </form>
   </div>
 </template>
@@ -23,10 +23,10 @@ export default {
   data() {
     return {
       editing: false,
+      minuteplus: false,
       temp: {
         text: "",
         date: null,
-        time: null,
       },
     };
   },
@@ -51,6 +51,7 @@ export default {
       const today = this.temp.date;
       const newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes() + 1, 0, 0);
       this.temp.date = newDate;
+      this.minuteplus = true;
     },
     save(e) {
       e.preventDefault();
