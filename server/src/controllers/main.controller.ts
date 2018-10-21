@@ -24,21 +24,21 @@ export default class Main extends BaseController {
 
     async deliveryReport(req: Request, res: Response, next: any): Promise<void> {
         const campaign_id = req.params.id;
-        if (!campaign_id){
+        if (!campaign_id) {
             //send error
-            this.handleError(next, "No campaign id found","Error");
+            this.handleError(next, "No campaign id found", "Error");
             return;
         }
         Delivery.find({
             campaign: campaign_id
-        }).then((deliveries:any[]) => {
+        }).then((deliveries: any[]) => {
             deliveries = deliveries.map(delivery => {
                 const tmp = delivery.toObject();
                 delete tmp.__v;
                 return tmp;
             });
-            if (deliveries == null || deliveries.length == 0){
-                this.handleError(next, "No deliveries to report!","Error");
+            if (deliveries == null || deliveries.length == 0) {
+                this.handleError(next, "No deliveries to report!", "Error");
                 return;
             }
             const items = deliveries;
@@ -54,22 +54,23 @@ export default class Main extends BaseController {
             res.header("Content-disposition", `attachment; filename=${campaign_id}.deliveryreport.csv`);
             res.send(csvString).status(200);
         }).catch(error => {
-            this.handleError(next, "Error generating report",error);
+            this.handleError(next, "Error generating report", error);
         })
     }
 
     async responseReport(req: Request, res: Response, next: any): Promise<void> {
         const campaignId = req.params.id;
-        if (!campaignId){
+        if (!campaignId) {
             //send error
-            this.handleError(next, "No campaign id found","Error");
+            this.handleError(next, "No campaign id found", "Error");
             return;
         }
         Campaign.findById(campaignId)
             .then(async campaign => {
+                console.log("Found campaign", campaign);
                 const responses = [];
-                for (const message of campaign.messages){
-                    for (const response of message.responses){
+                for (const message of campaign.messages) {
+                    for (const response of message.responses) {
                         responses.push({
                             user: response.user,
                             campaign: campaign.id,
@@ -82,9 +83,9 @@ export default class Main extends BaseController {
 
                 return responses;
 
-            }).then(async (responses:any[]) => {
-                if (responses == null || responses.length == 0){
-                    this.handleError(next, "No responses to report!","Error");
+            }).then(async (responses: any[]) => {
+                if (responses == null || responses.length == 0) {
+                    this.handleError(next, "No responses to report!", "Error");
                     return;
                 }
                 const items = responses;
@@ -100,7 +101,7 @@ export default class Main extends BaseController {
                 res.header("Content-disposition", `attachment; filename=${campaignId}.responsereport.csv`);
                 res.send(csvString).status(200);
             }).catch((error) => {
-                this.handleError(next, "Error generating report",error);
+                this.handleError(next, "Error generating report", error);
             });
     }
 
@@ -155,6 +156,18 @@ export default class Main extends BaseController {
             }
         });
 
+        if (campaign.status != 'created') {
+            let msg: string;
+            if (campaign.status == 'in-progress') {
+                msg = "Campaign is already in progress";
+            } else if (campaign.status == 'completed') {
+                msg = "Cannot start a completed campaign";
+            }
+
+            this.handleError(next, msg, null, 422);
+            return;
+        }
+
         campaign.status = 'in-progress';
         campaign.save();
 
@@ -179,11 +192,16 @@ export default class Main extends BaseController {
     async createMessage(req: Request, res: Response, next: any): Promise<void> {
         let campaignId = req.body.campaignId;
         let text: string = req.body.text;
+        let date: number = undefined;
+
+        if (req.body.date) {
+            date = req.body.date;
+        }
 
         let newMessage: IMessage = {
             text,
             uuid: undefined,
-            date: undefined,
+            date,
             status: undefined,
             responses: undefined
         };

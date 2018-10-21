@@ -14,6 +14,7 @@ export class MessageScheduler {
   }
 
   static scheduleMessage(campaign_id: string, message_id: string, date: number): void {
+    console.log("Created message timeout!", date - Date.now());
     const timeout = setTimeout(
       () => startSendingMessage(campaign_id, message_id),
       date - Date.now()

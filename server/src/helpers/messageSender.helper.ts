@@ -49,7 +49,8 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
           const delivery = new Delivery({
             campaign,
             user: user.phone,
-            message: message.text,
+            message: message.uuid,
+            messageBody: message.text,
             date: new Date(),
             status: 'Success'
           });
@@ -59,7 +60,8 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
           const delivery = new Delivery({
             campaign,
             user: user.phone,
-            message: message.text,
+            message: message.uuid,
+            messageBody: message.text,
             date: new Date(),
             status: 'Failed!'
           });
@@ -79,7 +81,7 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
       Campaign.findById(campaign_id).exec(),
       Delivery.find({
         campaign: campaign_id,
-        message_id
+        message: message_id
       }).exec()
     ]);
 
@@ -125,7 +127,8 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
             const delivery = new Delivery({
               campaign,
               user: user.phone,
-              message: message.text,
+              message: message.uuid,
+              messageBody: message.text,
               date: new Date(),
               status: 'Success'
             });
@@ -135,7 +138,8 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
             const delivery = new Delivery({
               campaign,
               user: user.phone,
-              message: message.text,
+              message: message.uuid,
+              messageBody: message.text,
               date: new Date(),
               status: 'Failed!'
             });
