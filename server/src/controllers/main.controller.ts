@@ -1,8 +1,9 @@
 import BaseController from './base.controller';
-import { Campaign, IUser, IMessage, ICampaign } from '../models/Campaign';
+import { Campaign, IUser, IMessage, ICampaign, IResponse } from '../models/Campaign';
 import { indexOfMessageSearch } from '../helpers/messageSender.helper';
 import express, { Router, Request, Response, Application } from 'express';
 import { debug } from 'util';
+import { Delivery } from '../models/Delivery';
 
 
 export default class Main extends BaseController {
@@ -16,7 +17,74 @@ export default class Main extends BaseController {
         this.router.get('/campaign/:campaignId/message/:messageId', this.getMessage.bind(this));
         this.router.put('/campaign/:campaignId/message/:messageId', this.updateMessage.bind(this));
         this.router.post('/message', this.createMessage.bind(this));
+        this.router.get('/campaign/:id/responses', this.responseReport.bind(this));
+        this.router.get('/campaign/:id/deliveries', this.deliveryReport.bind(this));
     };
+
+    async deliveryReport(req: Request, res: Response, next: any): Promise<void> {
+        const campaign_id = req.params.id;
+        if (!campaign_id){
+            //send error
+            this.handleError(next, "No campaign id found","Error");
+            return;
+        }
+        Delivery.find({
+            campaign_id
+        }).then(deliveries => {
+            const items = deliveries;
+            const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
+            const header = Object.keys(items[0])
+            let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+            csv.unshift(header.join(','))
+            const csvString = csv.join('\r\n')
+
+            console.log(csvString);
+
+            this.sendResponse(res, csvString, 200);
+        }).catch(error => {
+            this.handleError(next, "Error generating report",error);
+        })
+    }
+
+    async responseReport(req: Request, res: Response, next: any): Promise<void> {
+        const campaignId = req.params.id;
+        if (!campaignId){
+            //send error
+            this.handleError(next, "No campaign id found","Error");
+            return;
+        }
+        Campaign.findById(campaignId)
+            .then(async campaign => {
+                const responses = [];
+                for (const message of campaign.messages){
+                    for (const response of message.responses){
+                        responses.push({
+                            user: response.user,
+                            campaign: campaign.id,
+                            date: response.date,
+                            message: message.text,
+                            response: response.text
+                        })
+                    }
+                }
+
+                return responses;
+
+            }).then(async responses => {
+                const items = responses;
+                const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
+                const header = Object.keys(items[0])
+                let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                csv.unshift(header.join(','))
+                const csvString = csv.join('\r\n')
+
+                console.log(csvString);
+
+                this.sendResponse(res, csvString, 200);
+            }).catch((error) => {
+                this.handleError(next, "Error generating report",error);
+            });
+    }
 
     async createCampaign(req: Request, res: Response, next: any): Promise<void> {
         let name = req.body.name;

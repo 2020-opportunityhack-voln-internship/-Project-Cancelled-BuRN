@@ -8,6 +8,10 @@ const ResponseSchema: Schema = new Schema({
   text: {
     type: String,
     required: true
+  },
+  date: {
+    type: Number,
+    default: Date.now
   }
 });
 
@@ -111,6 +115,11 @@ CampaignSchema.query.addMessageResponse = function (campaign_id: string, message
   });
 }
 
+export interface IResponse {
+  user: string,
+  text: string,
+  date: number
+}
 export interface IUser {
   name: string,
   email: string,
