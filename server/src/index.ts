@@ -78,6 +78,10 @@ app.get('/testing', (req: Request, res: Response) => {
 try {
   helpers.routing(app);
 
+  app.use('/*', (req, res, next) => {
+    res.status(200).sendFile(path.resolve(__dirname + '../../public/index.html'));
+  });
+
   app.use((err: any, req: Request, res: Response, next: any) => {
     console.log(err);
 
