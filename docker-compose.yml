@@ -11,6 +11,13 @@ services:
     volumes:
       - ./server:/server
       - /server/node_modules
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:3.6
+    ports: 
+      - 27017:27017
   
   client:
     build:
