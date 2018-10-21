@@ -2,9 +2,13 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dispatcher from './dispatcher';
+import mongoose from 'mongoose';
 
 const password = 'test';
 const secret = 'test';
+
+const mongoUrl = process.env.MONGO_URL || 'mongodb://mongo/ohack'
+mongoose.connect(mongoUrl);
 
 const app = express();
 
