@@ -37,8 +37,8 @@ app.use((req: Request, res: Response, next) => {
   }
 });
 
-app.get('/', (req: Request, res: Response) => {
-  res.send("Hello, world!").status(200);
+app.get('/testing', (req: Request, res: Response) => {
+  res.send("Hello, josh!").status(200);
   dispatcher.sms.sendMessage("Hello!!!", { phoneNumber: "+12092757002" })
 });
 
