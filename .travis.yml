@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "10"
+jobs:
+  include:
+    - stage: build_client
+      script:
+        - cd client
+        - npm i
+        - npm run build
+    - stage: build server docker image
+      script:
+        - docker build -t jamesquigley/ohack2018 server
+        - docker push jamesquigley/ohack2018
