@@ -9,6 +9,7 @@ import { Delivery } from './models/Delivery';
 import { Campaign } from './models/Campaign';
 import { indexOfMessageSearch } from './helpers/messageSender.helper';
 
+import { startup } from './helpers/startup.helper';
 const password = process.env.ADMIN_PASSWORD || 'test';
 const secret = 'test';
 
@@ -89,3 +90,5 @@ try {
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
+
+startup();

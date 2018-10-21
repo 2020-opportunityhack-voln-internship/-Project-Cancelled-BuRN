@@ -2,7 +2,7 @@ import { Campaign } from "../models/Campaign";
 import { MessageScheduler } from './messageScheduler.helper';
 import { startSendingMessage, resumeSendingMessage } from './messageSender.helper';
 
-async function startup() {
+export async function startup() {
   const campaigns = await Campaign.find({ status: 'in-progress' });
 
   for (const campaign of campaigns) {
