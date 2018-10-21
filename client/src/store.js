@@ -7,7 +7,7 @@ import { API_URL } from './config';
 
 Vue.use(Vuex);
 
-const authOptions = {
+export const authOptions = {
   headers: {
     Authorization: 'test',
   },

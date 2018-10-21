@@ -14,6 +14,11 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/report',
+      name: 'Report',
+      component: () => import('./views/Report.vue'),
+    },
+    {
       path: '/campaign',
       component: () => import('./views/campaign/CampaignContainer.vue'),
       children: [

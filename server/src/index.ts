@@ -51,7 +51,7 @@ app.post('/smsresponse', (req: Request, res: Response) => {
     });
 });
 
-app.post('/login', (req: Request, res: Response) => {
+app.post('/api/login', (req: Request, res: Response) => {
   console.log(req);
   if (req.body.password == password) {
     res.cookie('authorization', secret, {

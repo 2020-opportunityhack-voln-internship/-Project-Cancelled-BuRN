@@ -10,6 +10,19 @@
   </div>
 </template>
 
+<script>
+import axios from 'axios';
+import urljoin from 'url-join';
+import { API_URL } from '@/config';
+import {authOptions} from '@/store';
+
+export default {
+  mounted() {
+    axios.post(urljoin(API_URL, 'login'), { password: 'test'});
+  },
+};
+</script>
+
 <style lang="scss">
 @import url(./animation.css);
 body {
