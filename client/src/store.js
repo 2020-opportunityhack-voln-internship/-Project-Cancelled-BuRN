@@ -40,11 +40,11 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         papa.parse(file, {
           complete: (data) => {
-            const objlist = data.data.map(row => ({
+            const objlist = data.data.map(row => (row[0].length > 0 ? {
               name: row[0],
               phone: row[1],
               email: row[2],
-            }));
+            } : null)).filter(item => item);
             resolve(objlist);
           },
           error: (e) => {
@@ -68,10 +68,13 @@ export default new Vuex.Store({
       const campaigns = (await axios.get(urljoin(API_URL, '/campaigns'), authOptions)).data;
       context.commit('RECEIVE_CAMPAIGNS', campaigns);
     },
+    async sendCampaign(context, { campaign }) {
+      return axios.post(urljoin(API_URL, 'campaign', campaign, 'start'), {}, authOptions);
+    },
     async newMessage(context, { message, campaign }) {
       const payload = {
         text: message.text,
-        date: message.date.getTime() / 1000,
+        date: message.date.getTime(),
         campaignId: campaign,
       };
       const newMessage = (await axios.post(urljoin(API_URL, '/message'), payload, authOptions)).data;

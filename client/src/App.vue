@@ -11,11 +11,13 @@
 </template>
 
 <style lang="scss">
+@import url(./animation.css);
 body {
   background: #eee;
   line-height: 1.8;
   margin: 0;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Trebuchet MS', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -46,9 +48,11 @@ nav a:hover {
 }
 #rootcontainer {
   padding: 10px;
+  box-sizing: border-box;
   margin-left: 260px;
-  // overflow-x: hidden;
+  overflow-x: hidden;
   overflow-y: visible;
+height: 100vh;
 }
 .router-link-active {
   text-decoration: underline;
@@ -60,7 +64,7 @@ nav a:hover {
   color: #eee;
   border-radius: 3px;
   -webkit-appearance: none;
-  flex: 0 0 auto !important;
+  flex: 1 0 auto;
 }
 .button:hover {
   background: #555;

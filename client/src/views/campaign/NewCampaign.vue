@@ -18,7 +18,7 @@
           <div @click="commitNewCampaign" class="button btn-success py1 px2 m1">
             My data looks good
           </div>
-          <div class="button py1 px2 m1">
+          <div @click="startOver" class="button py1 px2 m1">
             I need to change something
           </div>
         </div>
@@ -51,6 +51,9 @@ export default {
           this.users = users;
         });
       this.parsing = true;
+    },
+    startOver() {
+      this.users = null;
     },
     async commitNewCampaign() {
       this.pushing = true;

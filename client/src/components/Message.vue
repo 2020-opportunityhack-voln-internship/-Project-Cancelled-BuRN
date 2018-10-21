@@ -78,6 +78,7 @@ export default {
   }
   .button {
     /* flex-basis: 100px; */
+    flex: 0 0 auto !important;
     width: 100px;
   }
 </style>

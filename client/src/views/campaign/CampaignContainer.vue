@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex-auto flex flex-column">
     <ul class="m1 h5 list-reset" v-if="breadcrumb">
       <li :class="{'breadcrumb-active':stage1}"><span class="number">1</span> import users</li>
       <span class="flex-auto line"></span>
@@ -36,6 +36,7 @@ export default {
 ul {
   display: flex;
   justify-content: space-between;
+  flex: 0 0 auto;
 }
 li {
   transition: all .3s;
