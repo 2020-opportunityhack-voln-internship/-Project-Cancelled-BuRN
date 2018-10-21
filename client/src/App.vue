@@ -47,11 +47,28 @@ nav a:hover {
 #rootcontainer {
   padding: 10px;
   margin-left: 260px;
-  overflow-x: hidden;
+  // overflow-x: hidden;
+  overflow-y: visible;
 }
 .router-link-active {
   text-decoration: underline;
-  // font-weight: bold;
   background: rgba(50, 50, 50, 0.6);
+}
+.button {
+  cursor: pointer;
+  background: #333;
+  color: #eee;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  flex: 0 0 auto !important;
+}
+.button:hover {
+  background: #555;
+}
+.btn-success {
+  background: #0a0;
+}
+.btn-success:hover {
+  background: rgb(0, 204, 0);
 }
 </style>

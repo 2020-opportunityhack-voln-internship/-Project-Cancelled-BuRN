@@ -2,7 +2,7 @@
   <div class="flex flex-column">
     <transition name="fade">
       <div class="flex flex-column" v-if="!parsing && !users">
-        <input class="p2 m1 h3 flex-auto" type="text" :value="campaignName" placeholder="Campaign Name" autofocus/>
+        <input class="p2 m1 h3 flex-auto" type="text" v-model="campaignName" placeholder="Campaign Name" autofocus/>
         <input class="m1 h4" type="file" ref="file" accept="text/csv">
         <div>
           <div @click="processFile" class="button py1 px2 m1">
@@ -70,23 +70,10 @@ input[type="text"] {
   border-width: 0 0 1px 0;
 }
 .button {
-  cursor: pointer;
-  background: #333;
-  color: #eee;
   flex: 1 0 auto;
   float: left;
-  /* border: 1px solid #888; */
-  border-radius: 3px;
 }
-.button:hover {
-  background: #555;
-}
-.btn-success {
-  background: #0a0;
-}
-.btn-success:hover {
-  background: rgb(0, 204, 0);
-}
+
 pre {
   max-height: 400px;
   overflow: auto;

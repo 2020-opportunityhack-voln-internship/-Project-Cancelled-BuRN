@@ -3,7 +3,7 @@
     <ul class="m1 h5 list-reset" v-if="breadcrumb">
       <li :class="{'breadcrumb-active':stage1}"><span class="number">1</span> import users</li>
       <span class="flex-auto line"></span>
-      <li :class="{'breadcrumb-active':stage2}"><span class="number">2</span> create messages</li>
+      <li :class="{'breadcrumb-active':stage2}"><span class="number">2</span>configure messages</li>
       <span class="flex-auto line"></span>
       <li :class="{'breadcrumb-active':stage3}"><span class="number">3</span> press the button</li>
     </ul>

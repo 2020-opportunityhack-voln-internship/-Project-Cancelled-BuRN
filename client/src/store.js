@@ -7,14 +7,29 @@ import { API_URL } from './config';
 
 Vue.use(Vuex);
 
+const authOptions = {
+  headers: {
+    Authorization: 'test',
+  },
+};
+
 export default new Vuex.Store({
   state: {
     campaignMap: {},
+    messageMap: {},
     inputcsv: {},
   },
   mutations: {
     newCampaign(state, campaign) {
       Vue.set(state.campaignMap, campaign.id, campaign);
+    },
+    RECEIVE_CAMPAIGNS(state, campaigns) {
+      campaigns.forEach((campaign) => {
+        Vue.set(state.campaignMap, campaign.id, campaign);
+      });
+    },
+    RECEIVE_NEW_MESSAGE(state, { campaign, message }) {
+      state.campaignMap[campaign].messages.push(message);
     },
   },
   getters: {
@@ -42,14 +57,26 @@ export default new Vuex.Store({
       const newCampaign = (await axios.post(urljoin(API_URL, '/campaign'), {
         name,
         users,
-      }, {
-        headers: { Authorization: 'test', 'X-FOO': 'test' },
-      })).data;
+      }, authOptions)).data;
 
       context.commit('newCampaign', newCampaign);
-      return newCampaign;
+      return newCampaign.id;
       // make API call
       // commit new campaign
+    },
+    async fetchCampaigns(context) {
+      const campaigns = (await axios.get(urljoin(API_URL, '/campaigns'), authOptions)).data;
+      context.commit('RECEIVE_CAMPAIGNS', campaigns);
+    },
+    async newMessage(context, { message, campaign }) {
+      const payload = {
+        text: message.text,
+        date: message.date.getTime() / 1000,
+        campaignId: campaign,
+      };
+      const newMessage = (await axios.post(urljoin(API_URL, '/message'), payload, authOptions)).data;
+      context.commit('RECEIVE_NEW_MESSAGE', { message: newMessage, campaign });
+      return newMessage;
     },
   },
 });
