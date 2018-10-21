@@ -25,9 +25,11 @@ app.use(cors({
 app.use('/', express.static('public'));
 
 app.post('/smsresponse', (req: Request, res: Response) => {
+  console.log("Received response", req.body);
   const user_identifier = req.body.From;
   Delivery.findOne({user: user_identifier}).sort({date: -1}).limit(1)
     .then((delivery => {
+      console.log("Found delivery by user", delivery);
       Campaign.findOneAndUpdate({ _id: delivery.campaign }, {
         $push: {
           'messages.responses': {

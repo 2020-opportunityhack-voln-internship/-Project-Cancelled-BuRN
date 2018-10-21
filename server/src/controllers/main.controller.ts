@@ -83,6 +83,10 @@ export default class Main extends BaseController {
                 return responses;
 
             }).then(async (responses:any[]) => {
+                if (responses == null || responses.length == 0){
+                    this.handleError(next, "No responses to report!","Error");
+                    return;
+                }
                 const items = responses;
                 const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
                 const header = Object.keys(items[0])
