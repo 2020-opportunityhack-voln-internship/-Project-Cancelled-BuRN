@@ -35,7 +35,7 @@ export default class Main extends BaseController {
 
         newCampaignObject.save((err, campaign) => {
             if (err) {
-                this.handleError(next, "Error saving new campaign");
+                this.handleError(next, "Error saving new campaign", err);
             }
         });
 
@@ -47,7 +47,8 @@ export default class Main extends BaseController {
             if (err) {
                 this.handleError(
                     next,
-                    "Error querying for campaign with id of " + req.params.id
+                    "Error querying for campaign with id of " + req.params.id,
+                    err
                 );
             }
         });
@@ -67,13 +68,19 @@ export default class Main extends BaseController {
             responses: undefined
         };
 
+
         Campaign.findOneAndUpdate(
             { _id: campaignId },
             { $push: { messages: newMessage } },
             { new: true },
+            (err, campaign) => {
+                if (err) {
+                    this.handleError(next, "Error creating message", err)
+                } else {
+                    this.sendResponse(res, campaign.messages[campaign.messages.length - 1]);
+                }
+            }
         )
-            .then(campaign => this.sendResponse(res, campaign.messages[campaign.messages.length]))
-            .catch(_ => this.handleError(next, "Error creating message"));
     }
 
     async getMessage(req: Request, res: Response, next: any): Promise<void> {
@@ -87,6 +94,6 @@ export default class Main extends BaseController {
                 message = campaign.messages[index];
                 this.sendResponse(res, message);
             })
-            .catch(err => this.handleError(next, "Error finding campaign with id: " + campaignId));
+            .catch(err => this.handleError(next, "Error finding campaign with id: " + campaignId, err));
     }
 }

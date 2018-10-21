@@ -42,6 +42,12 @@ app.get('/', (req: Request, res: Response) => {
 
 helpers.routing(app);
 
+app.use((err: any, req: Request, res: Response, next: any) => {
+  console.log(err);
+
+  res.status(500).send(err.message);
+})
+
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
