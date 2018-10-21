@@ -86,4 +86,12 @@ const CampaignSchema: Schema = new Schema({
   }
 });
 
+CampaignSchema.query.addMessageResponse = function(campaign_id: string, message_uuid: string, user_identifier: string, text: string){
+  return this.findOneAndUpdate({_id: campaign_id}, { $push: { messages: {
+    user: user_identifier,
+    text,
+    date: Date.now()
+  } }});
+}
+
 export const Campaign = mongoose.model('Campaign', CampaignSchema)
