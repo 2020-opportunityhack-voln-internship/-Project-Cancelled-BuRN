@@ -43,7 +43,6 @@ app.get('/testing', (req: Request, res: Response) => {
 });
 
 try {
-
   helpers.routing(app);
 
   app.use((err: any, req: Request, res: Response, next: any) => {
@@ -51,8 +50,7 @@ try {
 
     res.status(500).send(err.message);
   })
-}
-catch (err) {
+} catch (err) {
   console.error(err);
 }
 

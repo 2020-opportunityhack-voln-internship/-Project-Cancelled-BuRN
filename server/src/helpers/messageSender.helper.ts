@@ -4,13 +4,17 @@ import { TwilioDispatcher } from "../dispatcher/twilio.dispatcher";
 
 export async function startSendingMessage(campaign_id: string, message_id: string): Promise<void> {
   const campaign = await Campaign.findById(campaign_id);
-  const messages = campaign.messages.filter(m => m.uuid == message_id)
-  let index = await indexOfMessageSearch(messages, message_id);
-  if (index == -1) {
+
+  console.error("Campaign:", campaign_id);
+  let messageIndex: number;
+  const message = campaign.messages.find((m, index) => {
+    messageIndex = index;
+    return m.uuid == message_id;
+  });
+  if (!message) {
     throw 'No message found!';
   }
-  let message = messages[index];
-  campaign.messages[index].status = 'started';
+  campaign.messages[messageIndex].status = 'started';
   await campaign.save();
   campaign.users.map(user => {
     if (user.email) {
@@ -40,10 +44,10 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
     }
     if (user.phone) {
       // Send message via phone dispatcher
-      new TwilioDispatcher().sendMessage(campaign, message, user.email)
+      new TwilioDispatcher().sendMessage(campaign, message, user.phone)
         .then(() => {
           const delivery = new Delivery({
-            campaign_id,
+            campaign,
             user: user.phone,
             message: message.text,
             date: new Date(),
@@ -53,7 +57,7 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
         })
         .catch(() => {
           const delivery = new Delivery({
-            campaign_id,
+            campaign,
             user: user.phone,
             message: message.text,
             date: new Date(),
@@ -64,7 +68,7 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
     }
   });
 
-  campaign.messages[index].status = 'complete';
+  campaign.messages[messageIndex].status = 'complete';
   campaign.save();
 }
 

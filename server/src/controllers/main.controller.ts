@@ -4,6 +4,7 @@ import { indexOfMessageSearch } from '../helpers/messageSender.helper';
 import express, { Router, Request, Response, Application } from 'express';
 import { debug } from 'util';
 import { Delivery } from '../models/Delivery';
+import { MessageScheduler } from '../helpers/messageScheduler.helper';
 
 
 export default class Main extends BaseController {
@@ -12,7 +13,7 @@ export default class Main extends BaseController {
 
         this.router.post('/campaign', this.createCampaign.bind(this));
         this.router.get('/campaign/:id', this.getCampaign.bind(this));
-        this.router.post('/campaign/:id/start', this.getCampaign.bind(this));
+        this.router.post('/campaign/:id/start', this.startCampaign.bind(this));
         this.router.get('/campaigns', this.getCampaigns.bind(this));
         this.router.get('/campaign/:campaignId/message/:messageId', this.getMessage.bind(this));
         this.router.put('/campaign/:campaignId/message/:messageId', this.updateMessage.bind(this));
@@ -129,7 +130,20 @@ export default class Main extends BaseController {
     }
 
     async startCampaign(req: Request, res: Response, next: any): Promise<void> {
-        // let
+        let campaignId = req.params.id;
+
+        let campaign: ICampaign = await Campaign.findById(campaignId, err => {
+            if (err) {
+                this.handleError(next, "Error retrieving campaign", err);
+            }
+        });
+
+        campaign.status = 'in-progress';
+        campaign.save();
+
+        MessageScheduler.startCampaign(campaign);
+
+        this.sendResponse(res, { msg: "Campaign successfully started" });
     }
 
     async getCampaigns(req: Request, res: Response, next: any): Promise<void> {

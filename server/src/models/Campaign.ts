@@ -84,10 +84,11 @@ const CampaignSchema: Schema = new Schema({
     required: true,
     default: Date.now
   },
-  complete: {
-    type: Boolean,
+  status: {
+    type: String,
     required: true,
-    default: false
+    default: 'created',
+    enum: ['created', 'in-progress', 'completed']
   }
 });
 
@@ -98,7 +99,7 @@ CampaignSchema.methods.toClient = function () {
   result.messages = this.messages;
   result.users = this.users;
   result.date = this.date;
-  result.complete = this.complete;
+  result.status = this.status;
 
   return result;
 }
@@ -129,12 +130,12 @@ export interface IMessage {
 
   uuid: string,
   text: string,
-  date: Date,
+  date: number,
   status: 'pending' | 'started' | 'complete',
   responses: [{
     user: string,
     text: string,
-    date: Date
+    date: number
   }]
 }
 
@@ -143,7 +144,7 @@ export interface ICampaign extends Document {
   users: [IUser],
   messages: [IMessage],
   date: Date,
-  complete: boolean,
+  status: 'created' | 'in-progress' | 'completed',
 
   addMessageResponse(campaign_id: string, message_uuid: string, user_identifier: string, text: string): any,
   toClient(): ICampaign;
