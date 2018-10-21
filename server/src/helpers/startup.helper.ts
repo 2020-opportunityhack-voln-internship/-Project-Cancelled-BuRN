@@ -7,15 +7,17 @@ export async function startup() {
 
   for (const campaign of campaigns) {
     for (const message of campaign.messages) {
-      if (message.status == 'started') {
-        // resume sending
-        resumeSendingMessage(campaign.id, message.uuid);
-      } else if (message.date <= Date.now()) {
-        // start sending
-        startSendingMessage(campaign.id, message.uuid);
-      } else {
-        // set a timeout for sending
-        MessageScheduler.scheduleMessage(campaign.id, message.uuid, message.date);
+      if (message.status != 'complete'){
+        if (message.status == 'started') {
+          // resume sending
+          resumeSendingMessage(campaign.id, message.uuid);
+        } else if (message.date <= Date.now()) {
+          // start sending
+          startSendingMessage(campaign.id, message.uuid);
+        } else {
+          // set a timeout for sending
+          MessageScheduler.scheduleMessage(campaign.id, message.uuid, message.date);
+        }
       }
     }
   }
