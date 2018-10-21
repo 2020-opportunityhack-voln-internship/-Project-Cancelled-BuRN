@@ -6,5 +6,6 @@
     "MONGO_URL":"@mongo-url",
     "TWILIO_SID":"@twilio-sid",
     "TWILIO_AUTH_TOKEN":"@twilio-auth-token"
-  }
+  },
+  "alias": "https://ohack2018-team19.now.sh"
 }
