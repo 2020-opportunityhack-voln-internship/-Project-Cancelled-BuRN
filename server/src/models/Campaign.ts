@@ -11,7 +11,7 @@ const ResponseSchema: Schema = new Schema({
   }
 });
 
-const MessageSchema: Schema = new Schema({
+export const MessageSchema: Schema = new Schema({
   uuid: {
     type: String,
     required: true,
