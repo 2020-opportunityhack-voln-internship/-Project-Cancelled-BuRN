@@ -8,7 +8,7 @@ import helpers from './helpers';
 import { Delivery } from './models/Delivery';
 import { Campaign } from './models/Campaign';
 import { indexOfMessageSearch } from './helpers/messageSender.helper';
-
+import path from 'path';
 import { startup } from './helpers/startup.helper';
 const password = process.env.ADMIN_PASSWORD || 'test';
 const secret = 'test';
@@ -81,7 +81,7 @@ try {
   app.use((err: any, req: Request, res: Response, next: any) => {
     console.log(err);
 
-    res.status(500).send(err.message);
+    res.status(200).sendFile(path.resolve(__dirname + '../public/index.html'));
   })
 } catch (err) {
   console.error(err);
