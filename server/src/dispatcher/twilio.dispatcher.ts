@@ -32,7 +32,7 @@ export class TwilioDispatcher extends BaseDispatcher{
             });
         } else {
             const delivery = new Delivery({
-                campaign_id: campaign.id,
+                campaign: campaign.id,
                 user: contact_method,
                 message: message.text,
                 date: new Date(),

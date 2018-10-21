@@ -5,6 +5,8 @@ import cors from 'cors';
 import dispatcher from './dispatcher';
 import mongoose from 'mongoose';
 import helpers from './helpers';
+import { Delivery } from './models/Delivery';
+import { Campaign } from './models/Campaign';
 
 const password = process.env.ADMIN_PASSWORD || 'test';
 const secret = 'test';
@@ -21,6 +23,27 @@ app.use(cors({
 }))
 
 app.use('/', express.static('public'));
+
+app.post('/smsresponse', (req: Request, res: Response) => {
+  console.log("Received response", req.body);
+  const user_identifier = req.body.From;
+  Delivery.findOne({user: user_identifier}).sort({date: -1}).limit(1)
+    .then((delivery => {
+      console.log("Found delivery by user", delivery);
+      Campaign.findOneAndUpdate({ _id: delivery.campaign }, {
+        $push: {
+          'messages.responses': {
+            user: user_identifier,
+            text: req.body.Body,
+            date: Date.now()
+          }
+        }
+      });
+    }))
+    .catch(error => {
+      res.status(500).send("Failed to handle response");
+    });
+});
 
 app.post('/login', (req: Request, res: Response) => {
   console.log(req);

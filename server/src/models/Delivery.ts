@@ -31,11 +31,11 @@ DeliverySchema.query.getMostRecent = function(user_identifier: string): Promise<
 }
 
 export interface IDelivery extends Document{
-  campaign_id: string,
+  campaign: string,
   user: string,
   message: string,
   date: Date,
-  status: string
+  status: string,
 
   getMostRecent(user_identifier: string): Promise<{campaign: string, user: string, message: string, date: Date, status: string}>
 }

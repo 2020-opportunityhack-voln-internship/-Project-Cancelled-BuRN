@@ -10,7 +10,7 @@ async function startup() {
       if (message.status == 'started') {
         // resume sending
         resumeSendingMessage(campaign.id, message.uuid);
-      } else if (message.date <= new Date()) {
+      } else if (message.date <= Date.now()) {
         // start sending
         startSendingMessage(campaign.id, message.uuid);
       } else {
