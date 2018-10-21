@@ -6,7 +6,7 @@
     "MONGO_URL":"@mongo-url",
     "TWILIO_SID":"@twilio-sid",
     "TWILIO_AUTH_TOKEN":"@twilio-auth-token",
-    "API_URL": "https://ohack2018-team19.now.sh/"
+    "API_URL": "https://ohack2018-team19.now.sh/api"
   },
   "alias": "https://ohack2018-team19.now.sh"
 }
