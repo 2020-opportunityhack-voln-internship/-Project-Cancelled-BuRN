@@ -26,8 +26,14 @@ const MessageSchema: Schema = new Schema({
     required: true
   },
   responses: [{
-    type: Response
-  }]
+    type: ResponseSchema
+  }],
+  status: {
+    type: String,
+    default: 'pending',
+    required: true,
+    enum: ['pending', 'started', 'complete']
+  }
 });
 
 const UserSchema: Schema = new Schema({
@@ -54,6 +60,11 @@ const CampaignSchema: Schema = new Schema({
     type: Date,
     required: true,
     default: Date.now()
+  },
+  complete: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
