@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link>
+      <!-- <router-link to="/">Home</router-link> -->
       <router-link to="/campaign">Campaigns</router-link>
       <!-- <router-link to="/campaign/new">new campaign</router-link> -->
       <router-link to="/report">Reports</router-link>
@@ -40,16 +40,18 @@ nav a {
   color: white;
   display: block;
 }
+nav a:hover {
+  background: rgba(75, 75, 75, 0.6);
+  text-decoration: underline;
+}
 #rootcontainer {
   padding: 10px;
   margin-left: 260px;
+  overflow-x: hidden;
 }
-.router-link-exact-active {
+.router-link-active {
   text-decoration: underline;
   // font-weight: bold;
-  background: rgba(73, 73, 73, 0.6);
-}
-.router-link-exact-active::before {
-  // content: '> '
+  background: rgba(50, 50, 50, 0.6);
 }
 </style>

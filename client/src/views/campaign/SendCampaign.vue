@@ -1,12 +1,13 @@
 <template>
   <div>
-    <router-link to="/campaign/new">+ new</router-link>
+    <h1>Send</h1>
+    {{id}}
   </div>
 </template>
 
 <script>
 export default {
-
+  props: ['id']
 };
 </script>
 

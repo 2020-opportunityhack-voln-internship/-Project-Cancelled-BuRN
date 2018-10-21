@@ -39,12 +39,15 @@ export default new Vuex.Store({
       });
     },
     async newCampaign(context, { name, users }) {
-      const newCampaign = await axios.post(urljoin(API_URL, '/campaign'), {
+      const newCampaign = (await axios.post(urljoin(API_URL, '/campaign'), {
         name,
         users,
-      });
+      }, {
+        headers: { Authorization: 'test', 'X-FOO': 'test' },
+      })).data;
+
       context.commit('newCampaign', newCampaign);
-      return newCampaign.id;
+      return newCampaign;
       // make API call
       // commit new campaign
     },

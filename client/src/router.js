@@ -15,7 +15,6 @@ export default new Router({
     },
     {
       path: '/campaign',
-      name: 'Campaign',
       component: () => import('./views/campaign/CampaignContainer.vue'),
       children: [
         {
@@ -27,6 +26,18 @@ export default new Router({
           path: 'new',
           name: 'NewCampaign',
           component: () => import('./views/campaign/NewCampaign.vue'),
+        },
+        {
+          path: '/campaign/:id/edit',
+          name: 'EditCampaign',
+          props: true,
+          component: () => import('./views/campaign/EditCampaign.vue'),
+        },
+        {
+          path: '/campaign/:id/send',
+          name: 'SendCampaign',
+          props: true,
+          component: () => import('./views/campaign/SendCampaign.vue'),
         },
       ],
     },
