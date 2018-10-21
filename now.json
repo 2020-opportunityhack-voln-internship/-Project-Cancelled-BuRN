@@ -1,4 +1,10 @@
 {
   "name":"ohack2018",
-  "type":"docker"
+  "type":"docker",
+  "env": {
+    "ADMIN_PASSWORD": "@admin-password",
+    "MONGO_URL":"@mongo-url",
+    "TWILIO_SID":"@twilio-sid",
+    "TWILIO_AUTH_TOKEN":"@twilio-auth-token"
+  }
 }

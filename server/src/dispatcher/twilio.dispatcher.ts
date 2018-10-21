@@ -2,8 +2,8 @@ import { BaseDispatcher } from "./base.dispatcher";
 import { IMessage, ICampaign } from "../models/Campaign";
 import { Delivery } from '../models/Delivery';
 
-const accountSid = 'AC4447dae75e7ac5a11184cff1face0eaf';
-const authToken = 'eb432eec044be3626e7914ac8ff2972b';
+const accountSid = process.env.TWILIO_SID || 'AC4447dae75e7ac5a11184cff1face0eaf';
+const authToken = process.env.TWILIO_AUTH_TOKEN || 'eb432eec044be3626e7914ac8ff2972b';
 const client = require('twilio')(accountSid, authToken);
 const twilioFromNumber = '+14805315337';
 

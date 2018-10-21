@@ -5,7 +5,7 @@ import dispatcher from './dispatcher';
 import mongoose from 'mongoose';
 import helpers from './helpers';
 
-const password = 'test';
+const password = process.env.ADMIN_PASSWORD || 'test';
 const secret = 'test';
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://mongo/ohack'
