@@ -3,7 +3,7 @@
     <div class="p3 flex report-row" v-for="campaign in Object.values(campaigns)" :key="campaign.id" :to="`/campaign/${campaign.id}/edit`">
       <span class="block flex-auto">{{campaign.name}}</span>
       <a :href="urljoin(API_URL, 'campaign', campaign.id, 'responses')" class="button px1 mr1">Response Report</a>
-      <a :href="urljoin(API_URL, 'campaign', campaign.id, 'responses')" class="button px1">Delivery Report</a>
+      <a :href="urljoin(API_URL, 'campaign', campaign.id, 'deliveries')" class="button px1">Delivery Report</a>
     </div>
   </div>
 </template>
