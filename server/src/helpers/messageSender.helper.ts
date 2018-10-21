@@ -1,5 +1,6 @@
 import { Campaign, IMessage } from "../models/Campaign";
 import { Delivery, IDelivery } from "../models/Delivery";
+import { TwilioDispatcher } from "../dispatcher/twilio.dispatcher";
 
 export async function startSendingMessage(campaign_id: string, message_id: string) : Promise<void> {
   const campaign = await Campaign.findById(campaign_id);
@@ -11,28 +12,55 @@ export async function startSendingMessage(campaign_id: string, message_id: strin
   let message = messages[index];
   campaign.messages[index].status = 'started';
   await campaign.save();
-  campaign.users.forEach(user => {
+  campaign.users.map(user => {
     if (user.email){
       // Send message via email dispatcher
-      const delivery = new Delivery({
-        campaign_id,
-        user: user.email,
-        message: message.text,
-        date: new Date(),
-        status: 'Success'
-      });
-      delivery.save();
+      // new EmailDispatcher().sendMessage(campaign, message, user.email)
+      //   .then(()=>{
+      //     const delivery = new Delivery({
+      //       campaign_id,
+      //       user: user.email,
+      //       message: message.text,
+      //       date: new Date(),
+      //       status: 'Success'
+      //     });
+      //     delivery.save();
+      //   })
+      //   .catch(()=>{
+      //     const delivery = new Delivery({
+      //       campaign_id,
+      //       user: user.email,
+      //       message: message.text,
+      //       date: new Date(),
+      //       status: 'Failed!'
+      //     });
+      //     delivery.save();
+      //   });
+      
     }
     if (user.phone) {
       // Send message via phone dispatcher
-      const delivery = new Delivery({
-        campaign_id,
-        user: user.phone,
-        message: message.text,
-        date: new Date(),
-        status: 'Success'
-      });
-      delivery.save();
+      new TwilioDispatcher().sendMessage(campaign, message, user.email)
+        .then(()=>{
+          const delivery = new Delivery({
+            campaign_id,
+            user: user.phone,
+            message: message.text,
+            date: new Date(),
+            status: 'Success'
+          });
+          delivery.save();
+        })
+        .catch(()=>{
+          const delivery = new Delivery({
+            campaign_id,
+            user: user.phone,
+            message: message.text,
+            date: new Date(),
+            status: 'Failed!'
+          });
+          delivery.save();
+        });
     }
   });
 
@@ -61,28 +89,54 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
   campaign.users.forEach(user => {
     if (user.email){
       if (!deliveries[user.email]){
-        // Send message via email dispatcher
-        const delivery = new Delivery({
-          campaign_id,
-          user: user.email,
-          message: message.text,
-          date: new Date(),
-          status: 'Success'
-        });
-        delivery.save();
+              // Send message via email dispatcher
+      // new EmailDispatcher().sendMessage(campaign, message, user.email)
+      //   .then(()=>{
+      //     const delivery = new Delivery({
+      //       campaign_id,
+      //       user: user.email,
+      //       message: message.text,
+      //       date: new Date(),
+      //       status: 'Success'
+      //     });
+      //     delivery.save();
+      //   })
+      //   .catch(()=>{
+      //     const delivery = new Delivery({
+      //       campaign_id,
+      //       user: user.email,
+      //       message: message.text,
+      //       date: new Date(),
+      //       status: 'Failed!'
+      //     });
+      //     delivery.save();
+      //   });
       }
     }
     if (user.phone) {
       if (!deliveries[user.phone]){
         // Send message via phone dispatcher
-        const delivery = new Delivery({
-          campaign_id,
-          user: user.phone,
-          message: message.text,
-          date: new Date(),
-          status: 'Success'
+        new TwilioDispatcher().sendMessage(campaign, message, user.email)
+        .then(()=>{
+          const delivery = new Delivery({
+            campaign_id,
+            user: user.phone,
+            message: message.text,
+            date: new Date(),
+            status: 'Success'
+          });
+          delivery.save();
+        })
+        .catch(()=>{
+          const delivery = new Delivery({
+            campaign_id,
+            user: user.phone,
+            message: message.text,
+            date: new Date(),
+            status: 'Failed!'
+          });
+          delivery.save();
         });
-        delivery.save();
       }
     }
   });
