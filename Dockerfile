@@ -20,4 +20,4 @@ COPY --from=client /client/dist /server/public
 
 EXPOSE 3000
 
-CMD [ "npm run production" ]
+CMD npm run production
