@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import urljoin from 'url-join';
 import axios from 'axios';
 import papa from 'papaparse';
+import { API_URL } from './config';
 
 Vue.use(Vuex);
 
@@ -17,13 +18,11 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    campaignById(id) {
-      return this.$store.state.campaignMap[id];
-    },
+    campaignById: state => id => state.campaignMap[id],
   },
   actions: {
-    async parse(context, { file, name }) {
-      const userList = await new Promise((resolve, reject) => {
+    async parse(context, { file }) {
+      return new Promise((resolve, reject) => {
         papa.parse(file, {
           complete: (data) => {
             const objlist = data.data.map(row => ({
@@ -38,8 +37,14 @@ export default new Vuex.Store({
           },
         });
       });
-      axios.post('/')
-      return userList;
+    },
+    async newCampaign(context, { name, users }) {
+      const newCampaign = await axios.post(urljoin(API_URL, '/campaign'), {
+        name,
+        users,
+      });
+      context.commit('newCampaign', newCampaign);
+      return newCampaign.id;
       // make API call
       // commit new campaign
     },
