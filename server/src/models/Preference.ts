@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Model, model, Document } from "mongoose";
 
 const PreferenceSchema: Schema = new Schema({
   contact_method: {
@@ -17,4 +17,10 @@ const PreferenceSchema: Schema = new Schema({
   }
 });
 
-export const Preference = mongoose.model('Preference', PreferenceSchema)
+export interface IPreference extends Document{
+  contact_method: string,
+  contact_type: 'email' | 'phone',
+  opt_out: boolean
+}
+
+export const Preference: Model<IPreference> = model<IPreference>('Preference', PreferenceSchema);

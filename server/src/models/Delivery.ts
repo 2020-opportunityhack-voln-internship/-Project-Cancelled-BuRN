@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Model, model, Document} from 'mongoose';
 
 const DeliverySchema: Schema = new Schema({
   campaign: {
@@ -30,4 +30,14 @@ DeliverySchema.query.getMostRecent = function(user_identifier: string): Promise<
   return this.findOne({user: user_identifier}).sort({date: -1}).limit(1);
 }
 
-export const Delivery = mongoose.model('Delivery', DeliverySchema);
+export interface IDelivery extends Document{
+  campaign_id: string,
+  user: string,
+  message: string,
+  date: Date,
+  status: string
+
+  getMostRecent(user_identifier: string): Promise<{campaign: string, user: string, message: string, date: Date, status: string}>
+}
+export const Delivery: Model<IDelivery> = model<IDelivery>('Delivery', DeliverySchema);
+
