@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dispatcher from './dispatcher';
@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.post('/login', (req, res) => {
+app.post('/login', (req: Request, res: Response) => {
   console.log(req);
   if (req.body.password == password){
     res.cookie('authorization', secret, {
@@ -22,7 +22,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next) => {
   if (req.headers.authorization == secret || req.cookies.authorization == secret){
     next();
   } else {
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   }
 });
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send("Hello, world!").status(200);
   dispatcher.sms.sendMessage("Hello!!!", { phoneNumber: "+12092757002" })
 });
