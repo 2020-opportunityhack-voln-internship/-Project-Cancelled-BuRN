@@ -67,6 +67,7 @@ export default class Main extends BaseController {
         }
         Campaign.findById(campaignId)
             .then(async campaign => {
+                console.log("Found campaign", campaign);
                 const responses = [];
                 for (const message of campaign.messages) {
                     for (const response of message.responses) {

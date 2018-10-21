@@ -34,7 +34,8 @@ export class TwilioDispatcher extends BaseDispatcher{
             const delivery = new Delivery({
                 campaign: campaign.id,
                 user: contact_method,
-                message: message.text,
+                message: message.uuid,
+                messageBody: message.text,
                 date: new Date(),
                 status: 'Opted Out'
             });

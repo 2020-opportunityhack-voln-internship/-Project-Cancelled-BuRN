@@ -10,6 +10,10 @@ const DeliverySchema: Schema = new Schema({
     type: String,
     required: true
   },
+  messageBody: {
+    type: String,
+    required: true
+  },
   message: {
     type: String,
     required: true
@@ -34,6 +38,7 @@ export interface IDelivery extends Document {
   campaign: string,
   user: string,
   message: string,
+  messageBody: string,
   date: Date,
   status: string,
 

@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import helpers from './helpers';
 import { Delivery } from './models/Delivery';
 import { Campaign } from './models/Campaign';
+import { indexOfMessageSearch } from './helpers/messageSender.helper';
 
 const password = process.env.ADMIN_PASSWORD || 'test';
 const secret = 'test';
@@ -17,6 +18,7 @@ mongoose.connect(mongoUrl);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: true
@@ -25,21 +27,24 @@ app.use(cors({
 app.use('/', express.static('public'));
 
 app.post('/smsresponse', (req: Request, res: Response) => {
+  debugger;
   console.log("Received response", req.body);
   const user_identifier = req.body.From;
   Delivery.findOne({user: user_identifier}).sort({date: -1}).limit(1)
-    .then((delivery => {
+    .then(async(delivery) => {
       console.log("Found delivery by user", delivery);
-      Campaign.findOneAndUpdate({ _id: delivery.campaign }, {
-        $push: {
-          'messages.responses': {
-            user: user_identifier,
-            text: req.body.Body,
-            date: Date.now()
-          }
-        }
+      const campaign = await Campaign.findById(delivery.campaign);
+      console.log("Found the campaign");
+      const index = await indexOfMessageSearch(campaign.messages, delivery.message);
+      console.log("Found the index of the message", campaign, index);
+      campaign.messages[index].responses.push({
+        user: user_identifier,
+        text: req.body.Body,
+        date: Date.now()
       });
-    }))
+      console.log(campaign.messages);
+      return campaign.save();
+    })
     .catch(error => {
       res.status(500).send("Failed to handle response");
     });
