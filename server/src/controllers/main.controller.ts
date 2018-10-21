@@ -30,7 +30,7 @@ export default class Main extends BaseController {
         }
         Delivery.find({
             campaign_id
-        }).then(deliveries => {
+        }).then((deliveries:any[]) => {
             const items = deliveries;
             const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
             const header = Object.keys(items[0])
@@ -70,7 +70,7 @@ export default class Main extends BaseController {
 
                 return responses;
 
-            }).then(async responses => {
+            }).then(async (responses:any[]) => {
                 const items = responses;
                 const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
                 const header = Object.keys(items[0])
