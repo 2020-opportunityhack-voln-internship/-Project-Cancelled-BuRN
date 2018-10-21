@@ -41,8 +41,26 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  email: String,
-  phone: String
+  email: {
+    type: String,
+    validate: {
+      validator: function(email: string) {
+        const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        return emailRegex.test(email);
+      },
+      message: () => `Invalid email`
+    }
+  },
+  phone: {
+    type: String,
+    validate: {
+      validator: function(phone: string) {
+        const phoneRegex = /\+?[1-9]\d{1,14}$/;
+        return phoneRegex.test(phone);
+      },
+      message: () => `Invalid phone number format`
+    }
+  }
 })
 
 const CampaignSchema: Schema = new Schema({
