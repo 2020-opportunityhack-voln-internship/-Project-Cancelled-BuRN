@@ -2,6 +2,7 @@ import BaseController from './base.controller';
 import { Campaign, IUser, IMessage, ICampaign } from '../models/Campaign';
 import { indexOfMessageSearch } from '../helpers/messageSender.helper';
 import express, { Router, Request, Response, Application } from 'express';
+import { debug } from 'util';
 
 
 export default class Main extends BaseController {
@@ -10,6 +11,7 @@ export default class Main extends BaseController {
 
         this.router.post('/campaign', this.createCampaign.bind(this));
         this.router.get('/campaign/:id', this.getCampaign.bind(this));
+        this.router.get('/campaigns', this.getCampaigns.bind(this));
         this.router.get('/campaign/:campaignId/message/:messageId', this.getMessage.bind(this));
         this.router.post('/message', this.createMessage.bind(this));
     };
@@ -54,6 +56,15 @@ export default class Main extends BaseController {
         });
 
         this.sendResponse(res, retrievedCampaign);
+    }
+
+    async getCampaigns(req: Request, res: Response, next: any): Promise<void> {
+        Campaign.find()
+            .then(campaigns => this.sendResponse(res, campaigns))
+            .catch(err => this.handleError(
+                next,
+                "Error querying for campaign with id of " + req.params.id
+            ));
     }
 
     async createMessage(req: Request, res: Response, next: any): Promise<void> {
