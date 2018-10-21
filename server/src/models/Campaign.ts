@@ -128,6 +128,3 @@ export interface ICampaign extends Document {
 }
 
 export const Campaign: Model<ICampaign> = model<ICampaign>('Campaign', CampaignSchema);
-export const User: Model<ICampaign> = model<ICampaign>('User', UserSchema);
-export const Message: Model<ICampaign> = model<ICampaign>('Message', MessageSchema);
-export const Response: Model<ICampaign> = model<ICampaign>('Response', ResponseSchema);

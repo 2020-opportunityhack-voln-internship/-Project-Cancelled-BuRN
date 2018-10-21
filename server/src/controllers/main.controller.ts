@@ -1,5 +1,5 @@
 import BaseController from './base.controller';
-import { Campaign, User, Message } from '../models/Campaign';
+import { Campaign, IUser, IMessage } from '../models/Campaign';
 
 import express, { Router, Request, Response, Application } from 'express';
 
