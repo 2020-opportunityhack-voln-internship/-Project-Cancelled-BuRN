@@ -62,13 +62,13 @@ app.post('/api/login', (req: Request, res: Response) => {
   }
 });
 
-app.use((req: Request, res: Response, next) => {
-  if (req.headers.authorization == secret || req.cookies.authorization == secret) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-});
+// app.use((req: Request, res: Response, next) => {
+//   if (req.headers.authorization == secret || req.cookies.authorization == secret) {
+//     next();
+//   } else {
+//     res.sendStatus(401);
+//   }
+// });
 
 app.get('/testing', (req: Request, res: Response) => {
   res.send("Hello, josh!").status(200);
