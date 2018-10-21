@@ -78,7 +78,7 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
     [
       Campaign.findById(campaign_id).exec(),
       Delivery.find({
-        campaign_id,
+        campaign: campaign_id,
         message_id
       }).exec()
     ]);
@@ -123,7 +123,7 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
         new TwilioDispatcher().sendMessage(campaign, message, user.email)
           .then(() => {
             const delivery = new Delivery({
-              campaign_id,
+              campaign,
               user: user.phone,
               message: message.text,
               date: new Date(),
@@ -133,7 +133,7 @@ export async function resumeSendingMessage(campaign_id: string, message_id: stri
           })
           .catch(() => {
             const delivery = new Delivery({
-              campaign_id,
+              campaign,
               user: user.phone,
               message: message.text,
               date: new Date(),

@@ -30,8 +30,17 @@ export default class Main extends BaseController {
             return;
         }
         Delivery.find({
-            campaign_id
+            campaign: campaign_id
         }).then((deliveries:any[]) => {
+            deliveries = deliveries.map(delivery => {
+                const tmp = delivery.toObject();
+                delete tmp.__v;
+                return tmp;
+            });
+            if (deliveries == null || deliveries.length == 0){
+                this.handleError(next, "No deliveries to report!","Error");
+                return;
+            }
             const items = deliveries;
             const replacer = (key: string, value: any) => value === null ? '' : value // specify how you want to handle null values here
             const header = Object.keys(items[0])
