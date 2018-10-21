@@ -14,8 +14,10 @@ COPY ./server/package-lock.json .
 RUN npm i
 
 COPY server . 
+RUN npm run build
+
 COPY --from=client /client/dist /server/public
 
 EXPOSE 3000
 
-CMD [ "cd server && npm run production" ]
+CMD [ "npm run production" ]
