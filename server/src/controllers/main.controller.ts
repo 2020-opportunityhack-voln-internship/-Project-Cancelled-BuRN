@@ -41,7 +41,9 @@ export default class Main extends BaseController {
 
             console.log(csvString);
 
-            this.sendResponse(res, csvString, 200);
+            res.header("Content-type", "application/csv");
+            res.header("Content-disposition", `attachment; filename=${campaign_id}.deliveryreport.csv`);
+            res.send(csvString).status(200);
         }).catch(error => {
             this.handleError(next, "Error generating report",error);
         })
@@ -81,7 +83,9 @@ export default class Main extends BaseController {
 
                 console.log(csvString);
 
-                this.sendResponse(res, csvString, 200);
+                res.header("Content-type", "application/csv");
+                res.header("Content-disposition", `attachment; filename=${campaignId}.responsereport.csv`);
+                res.send(csvString).status(200);
             }).catch((error) => {
                 this.handleError(next, "Error generating report",error);
             });
