@@ -1,28 +1,46 @@
 <template>
   <div class="flex flex-column">
-    <input class="p2 m1 h3 flex-auto" type="text" :value="campaignName" placeholder="Campaign Name" autofocus/>
-    <input class="m1 h4" type="file" accept="text/csv" @change="processFile($event)">
-    <div>
-      <div class="button py1 px2 m1">
-        next
+    <div v-if="!parsing && !file">
+      <input class="p2 m1 h3 flex-auto" type="text" :value="campaignName" placeholder="Campaign Name" autofocus/>
+      <input class="m1 h4" type="file" ref="file" accept="text/csv">
+      <div>
+        <div @click="processFile" class="button py1 px2 m1">
+          next
+        </div>
       </div>
     </div>
+    <div v-if="parsing">pretend this is a loading spinner</div>
+    <div v-if="!parsing && file">{{file}}</div>
   </div>
 </template>
 
 <script>
+import papa from 'papaparse';
 export default {
   data() {
     return {
+      campaignName: "",
       file: null,
-      campaignName: '',
+      parsing: false,
       stage: 0
     };
   },
   methods: {
-    processFile(event) {
+    processFile() {
       // this.file = event.target.value
-      console.log(event.target.value);
+      const file = this.$refs.file.files[0];
+      console.log(file);
+      this.file = this.$store.dispatch('parse', file)
+      .then((data) => {
+        this.parsing = false;
+        this.file = data;
+      });
+      this.parsing = true;
+    }
+  },
+  computed: {
+    dataReady() {
+      return 
     }
   },
 };

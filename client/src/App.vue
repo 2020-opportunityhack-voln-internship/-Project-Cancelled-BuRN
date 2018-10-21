@@ -23,7 +23,7 @@ body {
 nav {
   color: white;
   // width: 200px;
-  // padding: 30px;
+  padding-top: 30px;
   position: fixed;
   float: left;
   height: 100vh;
