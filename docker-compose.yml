@@ -28,4 +28,3 @@ services:
     volumes:
       - ./client:/client
       - /client/node_modules
-  
