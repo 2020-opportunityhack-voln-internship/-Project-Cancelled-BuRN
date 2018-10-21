@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dispatcher from './dispatcher';
 import mongoose from 'mongoose';
 import helpers from './helpers';
@@ -15,6 +16,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: true
+}))
 
 app.use('/', express.static('public'));
 
