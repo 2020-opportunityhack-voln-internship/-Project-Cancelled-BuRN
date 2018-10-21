@@ -40,13 +40,19 @@ app.get('/', (req: Request, res: Response) => {
   dispatcher.sms.sendMessage("Hello!!!", { phoneNumber: "+12092757002" })
 });
 
-helpers.routing(app);
+try {
 
-app.use((err: any, req: Request, res: Response, next: any) => {
-  console.log(err);
+  helpers.routing(app);
 
-  res.status(500).send(err.message);
-})
+  app.use((err: any, req: Request, res: Response, next: any) => {
+    console.log(err);
+
+    res.status(500).send(err.message);
+  })
+}
+catch (err) {
+  console.error(err);
+}
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");

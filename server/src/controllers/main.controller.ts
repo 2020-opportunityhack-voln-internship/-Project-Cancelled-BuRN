@@ -11,8 +11,10 @@ export default class Main extends BaseController {
 
         this.router.post('/campaign', this.createCampaign.bind(this));
         this.router.get('/campaign/:id', this.getCampaign.bind(this));
+        this.router.post('/campaign/:id/start', this.getCampaign.bind(this));
         this.router.get('/campaigns', this.getCampaigns.bind(this));
         this.router.get('/campaign/:campaignId/message/:messageId', this.getMessage.bind(this));
+        this.router.put('/campaign/:campaignId/message/:messageId', this.updateMessage.bind(this));
         this.router.post('/message', this.createMessage.bind(this));
     };
 
@@ -41,7 +43,7 @@ export default class Main extends BaseController {
             }
         });
 
-        this.sendResponse(res, newCampaignObject.id);
+        this.sendResponse(res, newCampaignObject.toClient());
     }
 
     async getCampaign(req: Request, res: Response, next: any): Promise<void> {
@@ -55,15 +57,23 @@ export default class Main extends BaseController {
             }
         });
 
-        this.sendResponse(res, retrievedCampaign);
+        this.sendResponse(res, retrievedCampaign.toClient());
+    }
+
+    async startCampaign(req: Request, res: Response, next: any): Promise<void> {
+        // let
     }
 
     async getCampaigns(req: Request, res: Response, next: any): Promise<void> {
         Campaign.find()
-            .then(campaigns => this.sendResponse(res, campaigns))
+            .then(campaigns => {
+                let clientCampaigns = campaigns.map(camp => camp.toClient());
+                this.sendResponse(res, clientCampaigns);
+            })
             .catch(err => this.handleError(
                 next,
-                "Error querying for campaign with id of " + req.params.id
+                "Error querying for campaign with id of " + req.params.id,
+                err
             ));
     }
 
@@ -92,6 +102,31 @@ export default class Main extends BaseController {
                 }
             }
         )
+    }
+
+    async updateMessage(req: Request, res: Response, next: any): Promise<void> {
+        try {
+
+            let campaignId = req.params.campaignId;
+            let messageId = req.params.messageId;
+
+            let parentCampaign = await Campaign.findById(campaignId);
+
+            let msgToUpdate = parentCampaign.messages.find(element => element.uuid == messageId);
+            if (req.body.text) {
+                msgToUpdate.text = req.body.text;
+            }
+            if (req.body.date) {
+                msgToUpdate.date = req.body.date;
+            }
+
+            await parentCampaign.save()
+                .catch(err => this.handleError(next, "Error updating message", err));
+
+            this.sendResponse(res, msgToUpdate);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     async getMessage(req: Request, res: Response, next: any): Promise<void> {

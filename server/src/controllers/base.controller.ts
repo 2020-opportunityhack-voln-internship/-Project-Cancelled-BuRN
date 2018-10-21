@@ -22,7 +22,8 @@ export default class {
         res.status(status).send(data);
     }
 
-    async handleError(next: any, msg: String, status = 500): Promise<void> {
+    async handleError(next: any, msg: String, err: any, status = 500): Promise<void> {
+        console.error(err);
         next({
             status: status,
             message: msg

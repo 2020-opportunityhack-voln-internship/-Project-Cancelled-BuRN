@@ -22,7 +22,7 @@ export const MessageSchema: Schema = new Schema({
     required: true
   },
   date: {
-    type: Date,
+    type: Number,
     required: true,
     default: Date.now
   },
@@ -76,7 +76,7 @@ const CampaignSchema: Schema = new Schema({
     type: UserSchema
   }],
   date: {
-    type: Date,
+    type: Number,
     required: true,
     default: Date.now
   },
@@ -86,6 +86,18 @@ const CampaignSchema: Schema = new Schema({
     default: false
   }
 });
+
+CampaignSchema.methods.toClient = function () {
+  let result: any = {};
+  result.id = this._id;
+  result.name = this.name;
+  result.messages = this.messages;
+  result.users = this.users;
+  result.date = this.date;
+  result.complete = this.complete;
+
+  return result;
+}
 
 CampaignSchema.query.addMessageResponse = function (campaign_id: string, message_uuid: string, user_identifier: string, text: string) {
   return this.findOneAndUpdate({ _id: campaign_id }, {
@@ -124,7 +136,8 @@ export interface ICampaign extends Document {
   date: Date,
   complete: boolean,
 
-  addMessageResponse(campaign_id: string, message_uuid: string, user_identifier: string, text: string): any
+  addMessageResponse(campaign_id: string, message_uuid: string, user_identifier: string, text: string): any,
+  toClient(): ICampaign;
 }
 
 export const Campaign: Model<ICampaign> = model<ICampaign>('Campaign', CampaignSchema);
