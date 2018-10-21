@@ -81,7 +81,11 @@ try {
   app.use((err: any, req: Request, res: Response, next: any) => {
     console.log(err);
 
-    res.status(200).sendFile(path.resolve(__dirname + '../public/index.html'));
+    if (err) {
+      res.status(err.status).send(err.message);
+      return;
+    }
+    res.status(200).sendFile(path.resolve(__dirname + '../../public/index.html'));
   })
 } catch (err) {
   console.error(err);
