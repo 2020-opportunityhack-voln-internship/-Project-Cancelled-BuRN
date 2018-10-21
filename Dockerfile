@@ -1,8 +1,7 @@
 FROM node:alpine as client
 WORKDIR /client
 COPY ./client .
-RUN npm i
-RUN npm run build
+RUN npm i && npm run build
 
 
 FROM node:alpine
