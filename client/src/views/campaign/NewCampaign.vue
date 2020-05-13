@@ -1,70 +1,91 @@
 <template>
   <div class="flex flex-column">
-    <transition name="fade">
-      <div class="flex flex-column" v-if="!parsing && !users">
-        <input class="p2 m1 h3 flex-auto" type="text" v-model="campaignName" placeholder="Campaign Name" autofocus/>
-        <input class="m1 h4" type="file" ref="file" accept="text/csv">
-        <div>
-          <div @click="processFile" class="button py1 px2 m1">
-            next
+      <transition name="fade">
+          <div class="flex flex-column" v-if="!parsing && !users">
+              <input class="p2 m1 h3 flex-auto" type="text" v-model="campaignName" placeholder="Campaign Name" autofocus />
+              <input class="m1 h4" type="file" ref="file" accept="text/csv">
+              <div>
+                  <div @click="processFile" class="button py1 px2 m1">
+                      next
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-      <div v-if="parsing">pretend this is a loading spinner</div>
-      <div v-if="!parsing && users" class="m1">
-        Preview of user data:
-        <pre>{{users}}</pre>
-        <div>
-          <div @click="commitNewCampaign" class="button btn-success py1 px2 m1">
-            My data looks good
+          <div v-if="parsing && !nofile">pretend this is a loading spinner</div>
+          <!-- Loading and Checking That User Uploaded a File -->
+          <!-- If No File, Ask to Upload a File -->
+          <div v-if="parsing && nofile">
+              Please upload a file.
+              <div>
+                  <div @click="startOver" class="button py1 px2 m1">
+                      Ok
+                  </div>
+              </div>
           </div>
-          <div @click="startOver" class="button py1 px2 m1">
-            I need to change something
+          <div v-if="!parsing && users" class="m1">
+              <!-- If File is Uploaded -->
+              Preview of user data:
+              <pre>{{users}}</pre>
+              <div>
+                  <div @click="commitNewCampaign" class="button btn-success py1 px2 m1">
+                      My data looks good
+                  </div>
+                  <div @click="startOver" class="button py1 px2 m1">
+                      I need to change something
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    </transition>
+
+      </transition>
   </div>
 </template>
 
 <script>
-import papa from "papaparse";
+import papa from 'papaparse';
+
 export default {
   data() {
     return {
-      campaignName: "",
+      campaignName: '',
       users: null,
       parsing: false,
       pushing: false,
-      stage: 0
+      nofile: false,
+      stage: 0,
     };
   },
   methods: {
-    processFile() {
+      processFile() {
+      this.nofile = false; //claim there is a file when processing the file
       const file = this.$refs.file.files[0];
       this.users = this.$store
-        .dispatch("parse", {
-          file
+        .dispatch('parse', {
+          file,
         })
-        .then(users => {
-          this.parsing = false;
+        .then((users) => {
+            this.parsing = false;
+            this.nofile = false;
           this.users = users;
-        });
-      this.parsing = true;
+          }, reason => {
+              this.parsing = true;
+              this.nofile = true;
+              this.users = null;
+          });
+          this.parsing = true;
     },
     startOver() {
-      this.users = null;
+        this.users = null;
+        this.parsing = false;
     },
     async commitNewCampaign() {
       this.pushing = true;
-      const id = await this.$store.dispatch("newCampaign", {
+      const id = await this.$store.dispatch('newCampaign', {
         users: this.users,
-        name: this.campaignName
+        name: this.campaignName,
       });
 
       this.$router.push(`/campaign/${id}/edit`);
-    }
-  }
+    },
+  },
 };
 </script>
 
