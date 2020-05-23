@@ -12,11 +12,11 @@
 import axios from 'axios';
 import urljoin from 'url-join';
 import { API_URL } from '@/config';
-import {authOptions} from '@/store';
+import { authOptions } from '@/store';
 
 export default {
   data() {
-    return {API_URL}
+    return { API_URL };
   },
   mounted() {
     console.log(API_URL);
@@ -30,8 +30,8 @@ export default {
   methods: {
     urljoin(...args) {
       return urljoin(args);
-    }
-  }
+    },
+  },
 };
 </script>
 

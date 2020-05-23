@@ -15,17 +15,17 @@
 </template>
 
 <script>
-import Message from "@/components/Message.vue";
+import Message from '@/components/Message.vue';
 
 export default {
-  props: ["id"],
+  props: ['id'],
   components: {
-    Message
+    Message,
   },
   computed: {
     campaign() {
       return this.$store.getters.campaignById(this.id);
-    }
+    },
   },
   methods: {
     next() {

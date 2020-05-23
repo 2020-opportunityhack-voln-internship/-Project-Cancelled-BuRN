@@ -20,13 +20,13 @@ export default {
       return !(this.$route.name === 'CampaignList');
     },
     stage1() {
-      return this.$route.name === 'NewCampaign'
+      return this.$route.name === 'NewCampaign';
     },
     stage2() {
-      return this.$route.name === 'EditCampaign'
+      return this.$route.name === 'EditCampaign';
     },
     stage3() {
-      return this.$route.name === 'SendCampaign'
+      return this.$route.name === 'SendCampaign';
     },
   },
 };

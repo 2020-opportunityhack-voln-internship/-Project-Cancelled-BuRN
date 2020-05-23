@@ -59,16 +59,16 @@ export default {
       const file = this.$refs.file.files[0];
       this.users = this.$store
         .dispatch('parse', {
-          file,
+        file,
         })
         .then((users) => {
-            this.parsing = false;
-            this.nofile = false;
+          this.parsing = false;
+          this.nofile = false;
           this.users = users;
           }, reason => {
-              this.parsing = true;
-              this.nofile = true;
-              this.users = null;
+            this.parsing = true;
+            this.nofile = true;
+            this.users = null;
           });
           this.parsing = true;
     },

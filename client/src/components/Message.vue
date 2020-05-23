@@ -16,16 +16,16 @@
 </template>
 
 <script>
-import datepicker from "vuejs-datepicker";
+import datepicker from 'vuejs-datepicker';
 
 export default {
-  props: ["message", "campaignid", "editable"],
+  props: ['message', 'campaignid', 'editable'],
   data() {
     return {
       editing: false,
       minuteplus: false,
       temp: {
-        text: "",
+        text: '',
         date: null,
       },
     };
@@ -35,7 +35,7 @@ export default {
       const d = new Date(this.message.date);
       // return "" + d.toLocaleString() + d.toTimeString();
       return d.toLocaleString();
-    }
+    },
   },
   mounted() {
     if (this.message) {
@@ -58,21 +58,21 @@ export default {
       if (this.temp.text.length > 0 && this.temp.date !== null) {
         this.editing = false;
         if (!this.message) {
-          this.$store.dispatch("newMessage", {
+          this.$store.dispatch('newMessage', {
             message: this.temp,
-            campaign: this.campaignid
+            campaign: this.campaignid,
           });
           this.temp = {
-            text: "",
-            date: null
+            text: '',
+            date: null,
           };
         }
       }
-    }
+    },
   },
   components: {
     datepicker,
-  }
+  },
 };
 </script>
 

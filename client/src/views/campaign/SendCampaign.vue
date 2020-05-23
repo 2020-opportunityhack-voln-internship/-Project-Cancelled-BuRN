@@ -10,15 +10,15 @@ export default {
   props: ['id'],
   methods: {
     async sendCampaign() {
-      console.log('send!')
+      console.log('send!');
       await this.$store.dispatch('sendCampaign', { campaign: this.id });
       this.$router.push('/campaign');
-    }
+    },
   },
   computed: {
     campaign() {
       return this.$store.getters.campaignById(this.id);
-    }
+    },
   },
 };
 </script>

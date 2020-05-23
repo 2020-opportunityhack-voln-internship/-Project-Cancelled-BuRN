@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <nav>
-      <!-- <router-link to="/">Home</router-link> -->
+      <router-link to="/">Home</router-link>
       <router-link to="/campaign">Campaigns</router-link>
-      <!-- <router-link to="/campaign/new">new campaign</router-link> -->
+      <router-link to="/campaign/new">new campaign</router-link>
       <router-link to="/report">Reports</router-link>
     </nav>
     <router-view id="rootcontainer"/>
@@ -14,11 +14,11 @@
 import axios from 'axios';
 import urljoin from 'url-join';
 import { API_URL } from '@/config';
-import {authOptions} from '@/store';
+import { authOptions } from '@/store';
 
 export default {
   mounted() {
-    axios.post(urljoin(API_URL, 'login'), { password: 'test'});
+    axios.post(urljoin(API_URL, 'login'), { password: 'rawr' });
   },
 };
 </script>
@@ -87,5 +87,14 @@ height: 100vh;
 }
 .btn-success:hover {
   background: rgb(0, 204, 0);
+}
+.google-signin-button {
+  color: white;
+  background-color: blue;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 20px 25px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
