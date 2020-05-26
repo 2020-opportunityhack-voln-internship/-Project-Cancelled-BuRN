@@ -89,12 +89,12 @@ height: 100vh;
   background: rgb(0, 204, 0);
 }
 .google-signin-button {
-  color: white;
-  background-color: blue;
+  background-image: url('./assets/google_button.png');
+  width: 197px;
   height: 50px;
-  font-size: 16px;
-  border-radius: 10px;
-  padding: 10px 20px 25px 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: white;
+}
+.google-signin-button:hover {
+    cursor: pointer;
 }
 </style>

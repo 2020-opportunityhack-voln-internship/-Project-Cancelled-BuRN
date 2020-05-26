@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <h1 class="m1">Good Evening.</h1>
-
-  <button v-google-signin-button="clientId" class="google-signin-button">
-  Continue with Google</button>
+    <div>
+      <button v-google-signin-button="clientId" class="google-signin-button">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -29,6 +30,7 @@ export default {
 .home {
   box-sizing: border-box;
   height: 100vh;
+  text-align: center;
   // padding-left: 40px !important;
   // padding: 0 !important;
 }
