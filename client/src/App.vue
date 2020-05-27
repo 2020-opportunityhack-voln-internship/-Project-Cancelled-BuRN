@@ -93,6 +93,9 @@ height: 100vh;
   width: 197px;
   height: 50px;
   background-color: white;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 .google-signin-button:hover {
     cursor: pointer;
