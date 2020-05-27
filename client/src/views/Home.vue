@@ -5,10 +5,15 @@
       <button v-google-signin-button="clientId" class="google-signin-button">
       </button>
     </div>
+	<div>
+	<v-facebook-login app-id="258991725447380" class="facebook-button"></v-facebook-login>
+	</div>
   </div>
 </template>
 
 <script>
+import VFacebookLogin from 'vue-facebook-login-component'
+
 export default {
   name: 'home',
   data: () => ({
@@ -23,6 +28,9 @@ export default {
       console.log(error);
     },
   },
+   components: {
+      VFacebookLogin
+    }
 };
 </script>
 

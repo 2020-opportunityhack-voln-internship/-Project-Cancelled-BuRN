@@ -100,4 +100,9 @@ height: 100vh;
 .google-signin-button:hover {
     cursor: pointer;
 }
+.facebook-button {
+  position: absolute;
+  top: 52px;
+  right: 0px;
+}
 </style>

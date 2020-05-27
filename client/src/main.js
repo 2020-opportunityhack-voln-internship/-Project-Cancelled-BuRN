@@ -4,6 +4,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import GoogleSignInButton from 'vue-google-signin-button-directive';
+import VFacebookLogin from 'vue-facebook-login-component'
+
+
 
 Vue.config.productionTip = false;
 
