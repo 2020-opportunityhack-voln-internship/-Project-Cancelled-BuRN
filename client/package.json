@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "basscss": "^8.0.2",
-    "papaparse": "^4.6.1",
+    "papaparse": "^5.2.0",
     "url-join": "^4.0.0",
     "vue": "^2.5.17",
     "vue-google-signin-button": "^1.0.4",
